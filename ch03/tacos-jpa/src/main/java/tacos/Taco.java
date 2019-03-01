@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
@@ -27,6 +28,9 @@ public class Taco {
 
   @ManyToMany(targetEntity=Ingredient.class)
   @Size(min=1, message="You must choose at least 1 ingredient")
+  @JoinTable(name="taco_ingredients",
+          joinColumns = @JoinColumn(name = "taco_id1", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "ingredients_id1", referencedColumnName = "id", columnDefinition = "varchar(100)"))
   private List<Ingredient> ingredients = new ArrayList<>();
   
   @PrePersist
