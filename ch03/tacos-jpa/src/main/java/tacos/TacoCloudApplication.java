@@ -5,14 +5,30 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import tacos.Ingredient.Type;
 import tacos.data.IngredientRepository;
+
+import javax.sql.DataSource;
 
 @SpringBootApplication
 public class TacoCloudApplication {
 
   public static void main(String[] args) {
     SpringApplication.run(TacoCloudApplication.class, args);
+  }
+
+  /* Create a dataSource using a Bean - avoid having to put this in the
+     application.properties files.
+   */
+  @Bean
+  public DataSource dataSource() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+    dataSource.setUrl("jdbc:mysql://localhost:3306/taco?useSSL=false&allowPublicKeyRetrieval=true");
+    dataSource.setUsername("taco");
+    dataSource.setPassword("taco");
+    return dataSource;
   }
 
   @Bean
